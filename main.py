@@ -34,12 +34,23 @@ data_test_opt = config['data_test_opt']
 num_imgs_per_cat = data_train_opt['num_imgs_per_cat'] if ('num_imgs_per_cat' in data_train_opt) else None
 
 
+csv_path='/proj/vondrick/portia/Novelty/results/datasets/ILSVRC_csv/20.0/ILSVRC-100_layer_4_comp0_left_20.0%.csv'
+train_data_path = '/proj/vondrick/datasets/ImageNet/ILSVRC/Data/CLS-LOC/train/'
+vali_data_path = '/proj/vondrick/datasets/ImageNet/ILSVRC/Data/CLS-LOC/val/
 
+"""
 dataset_train = GenericDataset(
     dataset_name=data_train_opt['dataset_name'],
     split=data_train_opt['split'],
     random_sized_crop=data_train_opt['random_sized_crop'],
     num_imgs_per_cat=num_imgs_per_cat)
+"""
+
+dataset_train = GenericDataset_csv(
+    csv_path=csv_path,data_dir=train_data_path,,
+    split='train',random_sized_crop=True)
+
+
 dataset_test = GenericDataset(
     dataset_name=data_test_opt['dataset_name'],
     split=data_test_opt['split'],

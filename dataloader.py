@@ -19,9 +19,7 @@ import csv
 from pdb import set_trace as breakpoint
 
 # Set the paths of the datasets here.
-_CIFAR_DATASET_DIR = './datasets/CIFAR'
-_IMAGENET_DATASET_DIR = './datasets/IMAGENET/ILSVRC2012'
-_PLACES205_DATASET_DIR = './datasets/Places205'
+_IMAGENET_DATASET_DIR = "/proj/vondrick/datasets/ImageNet/ILSVRC/Data/CLS-LOC/val"
 
 
 def buildLabelIndex(labels):
@@ -35,8 +33,6 @@ def buildLabelIndex(labels):
 
 class GenericDataset_csv(data.Dataset):
     
-    #def __init__(self, dataset_name, split, random_sized_crop=False,
-                 #num_imgs_per_cat=None):
     def __init__(self, csv_path, data_dir, split, random_sized_crop=False,
                  num_imgs_per_cat=None, dataset_name="imagenet"):
         self.split = split.lower()
