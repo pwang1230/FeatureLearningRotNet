@@ -246,7 +246,7 @@ class Algorithm():
 
     def run_train_epoch(self, data_loader, epoch):
         self.logger.info('Training: %s' % os.path.basename(self.exp_dir))
-        self.dloader       = data_loader
+        self.dloader = data_loader
         self.dataset_train = data_loader.dataset
 
         for key, network in self.networks.items():
@@ -268,7 +268,7 @@ class Algorithm():
     def evaluate(self, dloader):
         self.logger.info('Evaluating: %s' % os.path.basename(self.exp_dir))
 
-	self.dloader = dloader
+	    self.dloader = dloader
         self.dataset_eval = dloader.dataset
         self.logger.info('==> Dataset: %s [%d images]' % (dloader.dataset.name, len(dloader)))
         for key, network in self.networks.items():
@@ -304,7 +304,7 @@ class Algorithm():
         self.best_epoch = None
 
     def keep_record_of_best_model(self, eval_stats, current_epoch):
-	if self.keep_best_model_metric_name is not None:
+	    if self.keep_best_model_metric_name is not None:
             metric_name = self.keep_best_model_metric_name
             if (metric_name not in eval_stats):
                 raise ValueError('The provided metric {0} for keeping the best model is not computed by the evaluation routine.'.format(metric_name))
