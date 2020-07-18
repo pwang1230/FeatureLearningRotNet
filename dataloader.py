@@ -41,7 +41,7 @@ class GenericDataset_csv(data.Dataset):
                  num_imgs_per_cat=None, dataset_name="imagenet"):
         self.split = split.lower()
         self.dataset_name = dataset_name
-        self.csv_path =  csv_path.
+        self.csv_path = csv_path
         self.data_dir = data_dir
         self.random_sized_crop = random_sized_crop
         self.filenames = []
@@ -78,7 +78,7 @@ class GenericDataset_csv(data.Dataset):
                 #split is training
                 if self.random_sized_crop:
                     transforms_list = [
-                        transforms.RandomSizedCrop(224),
+                        transforms.RandomResizedCrop(224),
                         transforms.RandomHorizontalFlip(),
                         lambda x: np.asarray(x),
                     ]
@@ -101,13 +101,16 @@ class GenericDataset_csv(data.Dataset):
     def _keep_first_k_examples_per_category(self, num_imgs_per_cat):
         print('num_imgs_per_category {0}'.format(num_imgs_per_cat))
 
-        elif self.dataset_name=='imagenet':
+        if self.dataset_name=='imagenet':
             raise ValueError('Keeping k examples per category has not been implemented for the {0}'.format(dname))
         elif self.dataset_name=='place205':
             raise ValueError('Keeping k examples per category has not been implemented for the {0}'.format(dname))
         else:
             raise ValueError('Not recognized dataset {0}'.format(dname))
 
+    def get_image_from_folder(self, name):
+        image = Image.open(os.path.join(self.data_dir, name)).convert("RGB")
+        return image
 
     def __getitem__(self, index):
         Y = self.labels[index]
@@ -278,9 +281,9 @@ class DataLoader(object):
                 img0, _ = self.dataset[idx]
                 rotated_imgs = [
                     self.transform(img0),
-                    self.transform(rotate_img(img0,  90)),
-                    self.transform(rotate_img(img0, 180)),
-                    self.transform(rotate_img(img0, 270))
+                    self.transform(rotate_img(img0,  90).copy()),
+                    self.transform(rotate_img(img0, 180).copy()),
+                    self.transform(rotate_img(img0, 270).copy())
                 ]
                 rotation_labels = torch.LongTensor([0, 1, 2, 3])
                 return torch.stack(rotated_imgs, dim=0), rotation_labels
@@ -340,3 +343,4 @@ if __name__ == '__main__':
         fig.axes.get_yaxis().set_visible(False)
 
     plt.show()
+    plt.savefig('./test.png',dpi=300)
