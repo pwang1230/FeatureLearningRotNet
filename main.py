@@ -3,7 +3,7 @@ import argparse
 import os
 import imp
 import algorithms as alg
-from dataloader import DataLoader, GenericDataset
+from dataloader import DataLoader, GenericDataset, GenericDataset_csv
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--exp',         type=str, required=True, default='',  help='config file with parameters of the experiment')
@@ -36,7 +36,7 @@ num_imgs_per_cat = data_train_opt['num_imgs_per_cat'] if ('num_imgs_per_cat' in 
 
 csv_path='/proj/vondrick/portia/Novelty/results/datasets/ILSVRC_csv/20.0/ILSVRC-100_layer_4_comp0_left_20.0%.csv'
 train_data_path = '/proj/vondrick/datasets/ImageNet/ILSVRC/Data/CLS-LOC/train/'
-vali_data_path = '/proj/vondrick/datasets/ImageNet/ILSVRC/Data/CLS-LOC/val/
+vali_data_path = '/proj/vondrick/datasets/ImageNet/ILSVRC/Data/CLS-LOC/'
 
 """
 dataset_train = GenericDataset(
@@ -47,7 +47,7 @@ dataset_train = GenericDataset(
 """
 
 dataset_train = GenericDataset_csv(
-    csv_path=csv_path,data_dir=train_data_path,,
+    csv_path=csv_path,data_dir=train_data_path,
     split='train',random_sized_crop=True)
 
 

@@ -19,7 +19,7 @@ import csv
 from pdb import set_trace as breakpoint
 
 # Set the paths of the datasets here.
-_IMAGENET_DATASET_DIR = "/proj/vondrick/datasets/ImageNet/ILSVRC/Data/CLS-LOC/val"
+_IMAGENET_DATASET_DIR = "/proj/vondrick/datasets/ImageNet/ILSVRC/Data/CLS-LOC"
 
 
 def buildLabelIndex(labels):
@@ -114,7 +114,8 @@ class GenericDataset_csv(data.Dataset):
         X = self.get_image_from_folder(os.path.join(Y,self.filenames[index]))
         if self.transform is not None:
             X = self.transform(X)
-        return X,target
+        #print("csv", target)
+        return X,int(target)
 
     def __len__(self):
         return len(self.filenames)
@@ -209,6 +210,7 @@ class GenericDataset(data.Dataset):
 
     def __getitem__(self, index):
         img, label = self.data[index]
+        #print("noncsv",int(label))
         return img, int(label)
 
     def __len__(self):
@@ -311,7 +313,7 @@ class DataLoader(object):
         return self.get_iterator(epoch)
 
     def __len__(self):
-        return self.epoch_size / self.batch_size
+        return (self.epoch_size // self.batch_size)
 
 if __name__ == '__main__':
     from matplotlib import pyplot as plt
