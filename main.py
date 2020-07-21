@@ -14,9 +14,19 @@ parser.add_argument('--cuda'  ,      type=bool,     default=True,  help='enables
 parser.add_argument('--disp_step',   type=int,      default=50,    help='display step during training')
 args_opt = parser.parse_args()
 
+
+
+dataset_name = "ILSVRC-100_layer_0_comp0_right_20.0%"
+csv_path='/proj/vondrick/portia/Novelty/results/datasets/ILSVRC_csv/20.0/'+dataset_name+'.csv'
+train_data_path = '/proj/vondrick/datasets/ImageNet/ILSVRC/Data/CLS-LOC/train/'
+vali_data_path = '/proj/vondrick/datasets/ImageNet/ILSVRC/Data/CLS-LOC/'
+
+
+
 exp_config_file = os.path.join('.','config',args_opt.exp+'.py')
 # if args_opt.semi == -1:
-exp_directory = os.path.join('.','experiments',args_opt.exp)
+
+exp_directory = os.path.join('.','experiments',dataset_name[:-1]+'_'+args_opt.exp)
 # else:
 #    assert(args_opt.semi>0)
 #    exp_directory = os.path.join('.','experiments/unsupervised',args_opt.exp+'_semi'+str(args_opt.semi))
@@ -32,11 +42,6 @@ print("Generated logs, snapshots, and model files will be stored on %s" % (confi
 data_train_opt = config['data_train_opt']
 data_test_opt = config['data_test_opt']
 num_imgs_per_cat = data_train_opt['num_imgs_per_cat'] if ('num_imgs_per_cat' in data_train_opt) else None
-
-
-csv_path='/proj/vondrick/portia/Novelty/results/datasets/ILSVRC_csv/20.0/ILSVRC-100_layer_4_comp0_left_20.0%.csv'
-train_data_path = '/proj/vondrick/datasets/ImageNet/ILSVRC/Data/CLS-LOC/train/'
-vali_data_path = '/proj/vondrick/datasets/ImageNet/ILSVRC/Data/CLS-LOC/'
 
 """
 dataset_train = GenericDataset(
