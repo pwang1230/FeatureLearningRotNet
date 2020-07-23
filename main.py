@@ -7,26 +7,25 @@ from dataloader import DataLoader, GenericDataset, GenericDataset_csv
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--exp',         type=str, required=True, default='',  help='config file with parameters of the experiment')
-parser.add_argument('--evaluate',    default=False, action='store_true')
+parser.add_argument('--evaluate',    default=True, action='store_true')
 parser.add_argument('--checkpoint',  type=int,      default=0,     help='checkpoint (epoch id) that will be loaded')
 parser.add_argument('--num_workers', type=int,      default=4,     help='number of data loading workers')
 parser.add_argument('--cuda'  ,      type=bool,     default=True,  help='enables cuda')
 parser.add_argument('--disp_step',   type=int,      default=50,    help='display step during training')
 args_opt = parser.parse_args()
 
-
-
-dataset_name = "ILSVRC-100_layer_0_comp0_right_20.0%"
+dataset_name = "ILSVRC-100_layer_0_comp0_left_20.0%"
+dataset_name = "ILSVRC-100_layer_0_comp0_left_20.0%"
 csv_path='/proj/vondrick/portia/Novelty/results/datasets/ILSVRC_csv/20.0/'+dataset_name+'.csv'
 train_data_path = '/proj/vondrick/datasets/ImageNet/ILSVRC/Data/CLS-LOC/train/'
-vali_data_path = '/proj/vondrick/datasets/ImageNet/ILSVRC/Data/CLS-LOC/'
-
+vali_data_path = '/proj/vondrick/datasets/ImageNet/ILSVRC/Data/CLS-LOC/val/'
+csv_vali_path = '/proj/vondrick/portia/Novelty/results/datasets/ILSVRC_csv/val/80.0/ILSVRC-100_layer_0_comp0_left_80.0%.csv'
 
 
 exp_config_file = os.path.join('.','config',args_opt.exp+'.py')
 # if args_opt.semi == -1:
 
-exp_directory = os.path.join('.','experiments',dataset_name[:-1]+'_'+args_opt.exp)
+exp_directory = os.path.join('.','experiments','test'+dataset_name[:-1]+'_'+args_opt.exp)
 # else:
 #    assert(args_opt.semi>0)
 #    exp_directory = os.path.join('.','experiments/unsupervised',args_opt.exp+'_semi'+str(args_opt.semi))
@@ -60,6 +59,12 @@ dataset_test = GenericDataset(
     dataset_name=data_test_opt['dataset_name'],
     split=data_test_opt['split'],
     random_sized_crop=data_test_opt['random_sized_crop'])
+
+dataset_test = GenericDataset_csv(
+    name = csv_vali_path,
+    csv_path=csv_vali_path,data_dir=vali_data_path,
+    split='val',random_sized_crop=True)
+
 
 dloader_train = DataLoader(
     dataset=dataset_train,

@@ -27,8 +27,10 @@ net_opt['num_classes'] = 4
 net_opt['num_stages']  = 4
 
 networks = {}
+
+pretrained = './experiments/ILSVRC-100_layer_0_comp0_left_20.0_ImageNet_RotNet_AlexNet/model_net_epoch50'
 net_optim_params = {'optim_type': 'sgd', 'lr': 0.001, 'momentum':0.9, 'weight_decay': 5e-4, 'nesterov': True, 'LUT_lr':[(5, 0.0005),(10, 0.0001)]}
-networks['model'] = {'def_file': 'architectures/AlexNet.py', 'pretrained': None, 'opt': net_opt,  'optim_params': net_optim_params} 
+networks['model'] = {'def_file': 'architectures/AlexNet.py', 'pretrained': pretrained, 'opt': net_opt,  'optim_params': net_optim_params} 
 config['networks'] = networks
 
 criterions = {}

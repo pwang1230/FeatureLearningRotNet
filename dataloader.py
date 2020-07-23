@@ -33,9 +33,10 @@ def buildLabelIndex(labels):
 
 class GenericDataset_csv(data.Dataset):
     
-    def __init__(self, csv_path, data_dir, split, random_sized_crop=False,
+    def __init__(self, csv_path, data_dir, split, name="imagenet", random_sized_crop=False,
                  num_imgs_per_cat=None, dataset_name="imagenet"):
         self.split = split.lower()
+        self.name = name
         self.dataset_name = dataset_name
         self.csv_path = csv_path
         self.data_dir = data_dir
