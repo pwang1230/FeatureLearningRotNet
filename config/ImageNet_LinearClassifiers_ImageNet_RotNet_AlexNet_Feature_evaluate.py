@@ -22,17 +22,6 @@ config['data_train_opt'] = data_train_opt
 config['data_test_opt']  = data_test_opt
 config['max_num_epochs'] = 0
 
-
-networks = {}
-
-#pretrained = './experiments/ILSVRC-100_layer_0_comp0_right_20.0_ImageNet_RotNet_AlexNet/model_net_epoch50'
-dataset_name = 'ILSVRC-100_layer_0_comp0_right_20.0'
-
-pretrained = './experiments/'+dataset_name+'_ImageNet_RotNet_AlexNet/model_net_epoch50'
-pretrained_linear = './experiments/'+dataset_name+'_ImageNet_LinearClassifiers_ImageNet_RotNet_AlexNet_Features/classifier_net_epoch35'
-
-networks['feat_extractor'] = {'def_file': 'architectures/AlexNet.py', 'pretrained': pretrained, 'opt': {'num_classes': 4},  'optim_params': None} 
-networks['classifier']  = {'def_file': 'architectures/MultipleLinearClassifiers.py', 'pretrained': pretrained_linear, 'opt': net_opt_cls, 'optim_params': net_optim_params_cls}
 net_opt_cls = [None] * 5
 net_opt_cls[0] = {'pool_type':'max', 'nChannels':64, 'pool_size':12, 'num_classes': 1000}
 net_opt_cls[1] = {'pool_type':'max', 'nChannels':192, 'pool_size':7, 'num_classes': 1000}
@@ -42,6 +31,16 @@ net_opt_cls[4] = {'pool_type':'max', 'nChannels':256, 'pool_size':6, 'num_classe
 out_feat_keys = ['conv1', 'conv2', 'conv3', 'conv4', 'conv5']
 net_optim_params_cls = {'optim_type': 'sgd', 'lr': 0.1, 'momentum':0.9, 'weight_decay': 5e-4, 'nesterov': True, 'LUT_lr':[(5, 0.01),(15, 0.002),(25, 0.0004),(35, 0.00008)]}
 
+networks = {}
+
+#pretrained = './experiments/ILSVRC-100_layer_0_comp0_right_20.0_ImageNet_RotNet_AlexNet/model_net_epoch50'
+dataset_name = 'ILSVRC-100_layer_0_comp0_random_20.0'
+
+pretrained = './experiments/'+dataset_name+'_ImageNet_RotNet_AlexNet/model_net_epoch50'
+pretrained_linear = './experiments/'+dataset_name+'_ImageNet_LinearClassifiers_ImageNet_RotNet_AlexNet_Features/classifier_net_epoch35'
+
+networks['feat_extractor'] = {'def_file': 'architectures/AlexNet.py', 'pretrained': pretrained, 'opt': {'num_classes': 4},  'optim_params': None} 
+networks['classifier']  = {'def_file': 'architectures/MultipleLinearClassifiers.py', 'pretrained': pretrained_linear, 'opt': net_opt_cls, 'optim_params': net_optim_params_cls}
 
 config['networks'] = networks
 

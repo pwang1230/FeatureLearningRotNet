@@ -9,9 +9,9 @@ from dataloader import DataLoader, GenericDataset, GenericDataset_csv
 is_evaluate = True
 dataset_name = "ILSVRC-100_layer_0_comp0_left_20.0%"
 dataset_train_name = "ILSVRC-100_layer_0_comp0_left_20.0%"
-dataset_vali_name = "ILSVRC-100_layer_0_comp0_left_80.0%"
+dataset_vali_name = "ILSVRC-100_layer_0_comp0_left_20.0%"
 csv_train_path='/proj/vondrick/portia/Novelty/results/datasets/ILSVRC_csv/20.0/'+dataset_train_name+'.csv'
-csv_vali_path = '/proj/vondrick/portia/Novelty/results/datasets/ILSVRC_csv/val/80.0/'+dataset_vali_name'.csv'
+csv_vali_path = '/proj/vondrick/portia/Novelty/results/datasets/ILSVRC_csv/val/20.0/'+dataset_vali_name+'.csv'
 
 
 train_data_path = '/proj/vondrick/datasets/ImageNet/ILSVRC/Data/CLS-LOC/train/'
@@ -27,16 +27,16 @@ parser.add_argument('--disp_step',   type=int,      default=50,    help='display
 args_opt = parser.parse_args()
 
 exp_config_file = os.path.join('.','config',args_opt.exp+'.py')
-# if args_opt.semi == -1:
-
-exp_directory = os.path.join('.','experiments','test'+dataset_train_name[:-1]+'_'+args_opt.exp)
-# else:
-#    assert(args_opt.semi>0)
-#    exp_directory = os.path.join('.','experiments/unsupervised',args_opt.exp+'_semi'+str(args_opt.semi))
-
 # Load the configuration params of the experiment
 print('Launching experiment: %s' % exp_config_file)
 config = imp.load_source("",exp_config_file).config
+
+if args_opt.exp == 'ImageNet_RotNet_AlexNet_finetune':
+    exp_directory = os.path.join('.','experiments',"here"+args_opt.exp+'_'+dataset_train_name[:-1])
+    print(config['networks']['model']['pretrained'])
+else:
+    exp_directory = os.path.join('.','experiments','test'+dataset_train_name[:-1]+'_'+args_opt.exp)
+
 config['exp_dir'] = exp_directory # the place where logs, models, and other stuff will be stored
 print("Loading experiment %s from file: %s" % (args_opt.exp, exp_config_file))
 print("Generated logs, snapshots, and model files will be stored on %s" % (config['exp_dir']))
